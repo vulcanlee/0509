@@ -22,7 +22,8 @@ namespace XFListView.ViewModels
         public DelegateCommand TapCommand { get; set; }
         public bool IsRefreshing { get; set; }
         public DelegateCommand RefreshCommand { get; set; }
-        public bool EditMode { get; set; }
+         public DelegateCommand<MyItem> DeleteCommand { get; set; }
+       public bool EditMode { get; set; }
         public DelegateCommand AddCommand { get; set; }
         public MainPageViewModel(INavigationService navigationService)
         {
@@ -53,6 +54,10 @@ namespace XFListView.ViewModels
                 EditMode = false;
                 para.Add("EditMode", EditMode);
                 _navigationService.NavigateAsync("DetailPage", para);
+            });
+            DeleteCommand = new DelegateCommand<MyItem>((x) =>
+            {
+                MyTasks.Remove(x);
             });
         }
 

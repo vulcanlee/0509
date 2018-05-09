@@ -19,11 +19,24 @@ namespace XFListView.ViewModels
             new ObservableCollection<MyItem>();
         public MyItem MyTaskSelected { get; set; }
         private readonly INavigationService _navigationService;
-
+        public DelegateCommand TapCommand { get; set; }
+        public  bool IsRefreshing { get; set; }
+        public DelegateCommand RefreshCommand { get; set; }
         public MainPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
 
+            TapCommand = new DelegateCommand(() =>
+            {
+                NavigationParameters para = new NavigationParameters();
+                para.Add("current", MyTaskSelected);
+                _navigationService.NavigateAsync("DetailPage", para);
+            });
+            RefreshCommand = new DelegateCommand(() =>
+            {
+                Refresh();
+                IsRefreshing = false;
+            });
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)

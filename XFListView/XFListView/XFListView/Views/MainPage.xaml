@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behavior="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
              x:Class="XFListView.Views.MainPage"
              Title="工作清單">
 
@@ -10,7 +11,16 @@
             SelectedItem="{Binding MyTaskSelected}"
             SeparatorVisibility="None"
             HasUnevenRows="True"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsRefreshing}"
+            RefreshCommand="{Binding RefreshCommand}"
             >
+            <ListView.Behaviors>
+                <behavior:EventToCommandBehavior
+                    EventName="ItemTapped"
+                    Command="{Binding TapCommand}"
+                    />
+            </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -27,7 +37,7 @@
                                 Text="{Binding Status}"
                                 FontSize="20"/>
                                 <Label
-                                Text="{Binding Date}"
+                                Text="{Binding Date, StringFormat='{0:yyyy-MM-dd}'}"
                                 FontSize="14"/>
                             </StackLayout>
                         </Grid>

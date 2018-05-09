@@ -12,7 +12,7 @@ namespace XFListView.Services
         {
             List<MyItem> fooMyItems =
                 new List<MyItem>();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 fooMyItems.Add(new MyItem()
                 {

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="XFListView.Views.DetailPage"
+             Title="詳細資料">
+    <Grid
+        RowSpacing="0" ColumnSpacing="0"
+        >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>            
+        </Grid.RowDefinitions>
+        <StackLayout
+            Grid.Row="0" Grid.Column="0"
+            Orientation="Vertical"
+            Spacing="0">
+            <Label Text="工作名稱"/>
+            <Entry Text="{Binding MyItemSelected.Name}"/>
+            <Label Text="工作狀態"/>
+            <Entry Text="{Binding MyItemSelected.Status}"/>
+            <Label Text="指派日期"/>
+            <DatePicker Date="{Binding MyItemSelected.Date}"/>
+        </StackLayout>
+
+        <Grid
+            Grid.Row="1" Grid.Column="0"
+            RowSpacing="0"
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Row="0" Grid.Column="0"
+                Text="儲存"
+                BackgroundColor="LightBlue"
+                Command="{Binding SaveCommand}"/>
+            <Button
+                Grid.Row="0" Grid.Column="1"
+                Text="刪除"
+                BackgroundColor="LightPink"
+                Command="{Binding DeleteCommand}"/>
+        </Grid>
+    </Grid>
+</ContentPage>

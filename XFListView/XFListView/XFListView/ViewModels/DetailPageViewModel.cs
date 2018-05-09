@@ -16,18 +16,30 @@ namespace XFListView.ViewModels
         private readonly INavigationService _navigationService;
         public DelegateCommand SaveCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
+        public bool EditMode { get; set; }
+        public bool SaveData { get; set; }
         public DetailPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
             SaveCommand = new DelegateCommand(() =>
             {
-
+                SaveData = true;
+                NavigationParameters para = new NavigationParameters();
+                para.Add("current", MyItemSelected);
+                para.Add("SaveData", SaveData);
+                para.Add("EditMode", EditMode);
+                _navigationService.GoBackAsync(para);
             });
             DeleteCommand = new DelegateCommand(() =>
             {
-
+                SaveData = false;
+                NavigationParameters para = new NavigationParameters();
+                para.Add("current", MyItemSelected);
+                para.Add("SaveData", SaveData);
+                para.Add("EditMode", EditMode);
+                _navigationService.GoBackAsync(para);
             });
-       }
+        }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
         {
@@ -41,9 +53,13 @@ namespace XFListView.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
-            if(parameters.ContainsKey("current"))
+            if (parameters.ContainsKey("current"))
             {
                 MyItemSelected = (parameters["current"] as MyItem).Clone() as MyItem;
+            }
+            if (parameters.ContainsKey("EditMode"))
+            {
+                EditMode = (bool)parameters["EditMode"];
             }
         }
 

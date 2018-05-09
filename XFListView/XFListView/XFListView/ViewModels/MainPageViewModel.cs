@@ -20,8 +20,9 @@ namespace XFListView.ViewModels
         public MyItem MyTaskSelected { get; set; }
         private readonly INavigationService _navigationService;
         public DelegateCommand TapCommand { get; set; }
-        public  bool IsRefreshing { get; set; }
+        public bool IsRefreshing { get; set; }
         public DelegateCommand RefreshCommand { get; set; }
+        public bool EditMode { get; set; }
         public MainPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
@@ -30,6 +31,8 @@ namespace XFListView.ViewModels
             {
                 NavigationParameters para = new NavigationParameters();
                 para.Add("current", MyTaskSelected);
+                EditMode = true;
+                para.Add("EditMode", EditMode);
                 _navigationService.NavigateAsync("DetailPage", para);
             });
             RefreshCommand = new DelegateCommand(() =>
@@ -51,6 +54,48 @@ namespace XFListView.ViewModels
 
         public void OnNavigatedTo(NavigationParameters parameters)
         {
+            //para.Add("current", MyItemSelected);
+            //para.Add("SaveData", SaveData);
+            //para.Add("EditMode", EditMode);
+            if (parameters.ContainsKey("EditMode"))
+            {
+                EditMode = (bool)parameters["EditMode"];
+
+                if (parameters.ContainsKey("current"))
+                {
+                    var fooUpdateItem = parameters["current"] as MyItem;
+                    if (parameters.ContainsKey("SaveData"))
+                    {
+                        var fooSaveData = (bool)parameters["SaveData"];
+
+                        // 開始進行資料的 CRUD 處理
+                        if (EditMode == true)
+                        {
+                            if (fooSaveData == true)
+                            {
+                                var fooItem = MyTasks.FirstOrDefault(x => x.Id == fooUpdateItem.Id);
+                                if (fooItem != null)
+                                {
+                                    fooItem.Name = fooUpdateItem.Name;
+                                    fooItem.Status = fooUpdateItem.Status;
+                                    fooItem.Date = fooUpdateItem.Date;
+                                }
+                            }
+                            else
+                            {
+                                var fooItem = MyTasks.FirstOrDefault(x => x.Id == fooUpdateItem.Id);
+                                if (fooItem != null)
+                                {
+                                    MyTasks.Remove(fooItem);
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+
             Refresh();
         }
 

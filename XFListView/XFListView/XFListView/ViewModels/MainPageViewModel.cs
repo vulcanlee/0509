@@ -23,6 +23,7 @@ namespace XFListView.ViewModels
         public bool IsRefreshing { get; set; }
         public DelegateCommand RefreshCommand { get; set; }
         public bool EditMode { get; set; }
+        public DelegateCommand AddCommand { get; set; }
         public MainPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
@@ -39,6 +40,19 @@ namespace XFListView.ViewModels
             {
                 Refresh();
                 IsRefreshing = false;
+            });
+            AddCommand = new DelegateCommand(() =>
+            {
+                var fooNewTask = new MyItem()
+                {
+                    Date = DateTime.Now.AddDays(-3),
+                    Status = "還沒有"
+                };
+                NavigationParameters para = new NavigationParameters();
+                para.Add("current", fooNewTask);
+                EditMode = false;
+                para.Add("EditMode", EditMode);
+                _navigationService.NavigateAsync("DetailPage", para);
             });
         }
 
@@ -89,6 +103,11 @@ namespace XFListView.ViewModels
                                     MyTasks.Remove(fooItem);
                                 }
                             }
+                        }
+                        else
+                        {
+                            // Add New Item
+                            MyTasks.Insert(0, fooUpdateItem);
                         }
                     }
 

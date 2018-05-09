@@ -36,12 +36,20 @@
                 Grid.Row="0" Grid.Column="0"
                 Text="儲存"
                 BackgroundColor="LightBlue"
-                Command="{Binding SaveCommand}"/>
+                Command="{Binding SaveCommand}"
+                IsVisible="{Binding ShowEditMode}"/>
             <Button
                 Grid.Row="0" Grid.Column="1"
                 Text="刪除"
                 BackgroundColor="LightPink"
-                Command="{Binding DeleteCommand}"/>
+                Command="{Binding DeleteCommand}"
+                IsVisible="{Binding ShowEditMode}"/>
+            <Button
+                Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                Text="儲存"
+                BackgroundColor="LightBlue"
+                Command="{Binding AddCommand}"
+                IsVisible="{Binding ShowAddMode}"/>
         </Grid>
     </Grid>
 </ContentPage>

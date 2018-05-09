@@ -5,6 +5,10 @@
              x:Class="XFListView.Views.MainPage"
              Title="工作清單">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="新增" Command="{Binding AddCommand}"/>
+    </ContentPage.ToolbarItems>
+    
     <Grid>
         <ListView
             ItemsSource="{Binding MyTasks}"
